@@ -1,0 +1,1003 @@
+{% extends "ltr/shop-manager/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+<!------------------------------- title ---------------------------------------------------->
+<!-- english & frensh version -->
+{% block title %}
+<title>
+{% if lang == 'en' %}
+         Inventory - Dexunt Shop Management
+{% endif %}
+</title>
+{% endblock %}
+<!------------------------------- end title ------------------------------------------------>
+
+<!------------------------------- side menu ------------------------------------------------>
+<!-- english & frensh version -->
+{% block side_menu %}
+<div id="kt_aside_menu" class="menu menu-rounded menu-column menu-active-bg menu-title-gray-600 menu-icon-gray-400 menu-state-primary menu-arrow-gray-500 fw-semibold fs-6 my-auto" data-kt-menu="true">
+    <!-------------------english------------------>
+    {% if lang == 'en' %}
+    <!--menu title dashboard-->
+    <div class="menu-item py-2">
+        <a class="menu-link menu-center" href="{% url 'dashboard' 'en' %}" title="Dashboard" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+            <span class="menu-icon me-0">
+                <!--dashboard icon-->
+                <span class="menu-link menu-center">
+                    <span class="menu-icon me-0">
+                        <i class="bi bi-grid" style="font-size: 2rem;"></i>
+                    </span>
+                </span>
+                <!--end dashboard icon-->
+            </span>
+        </a>
+    </div>
+    <!--end menu title dashboard-->
+
+    <!--menu title user management-->
+    <div class="menu-item py-2">
+        <a class="menu-link menu-center" href="{% url 'dashboard' 'en' %}" title="User Management" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+            <span class="menu-icon me-0">
+                <!--user management icon-->
+                <span class="menu-link menu-center">
+                    <span class="menu-icon me-0">
+                        <i class="bi bi-people" style="font-size: 2rem;"></i>
+                    </span>
+                </span>
+                <!--end user management icon-->
+            </span>
+        </a>
+    </div>
+    <!--end menu title user management-->
+
+    <!--menu title inventory-->
+    <div class="menu-item py-2">
+        <a class="menu-link active menu-center" href="{% url 'inventory' '#' '#' %}" title="Inventory" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+            <span class="menu-icon me-0">
+                <!--inventory icon-->
+                <span class="menu-link menu-center">
+                    <span class="menu-icon me-0">
+                        <i class="bi bi-box-seam" style="font-size: 2rem;"></i>
+                    </span>
+                </span>
+                <!--end inventory icon-->
+            </span>
+        </a>
+    </div>
+    <!--end menu title inventory-->
+
+    <!--menu title e-shop-->
+    <div class="menu-item py-2">
+        <a class="menu-link menu-center" href="{% url 'e-shop' '#' '#' 0 %}" title="E-Shop" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+            <span class="menu-icon me-0">
+                <!--e-shop icon-->
+                <span class="menu-link menu-center">
+                    <span class="menu-icon me-0">
+                        <i class="bi bi-cart" style="font-size: 2rem;"></i>
+                    </span>
+                </span>
+                <!--end e-shop icon-->
+            </span>
+        </a>
+    </div>
+    <!--end menu title e-shop-->
+
+    <!--menu title cash management-->
+    <div class="menu-item py-2">
+        <a class="menu-link menu-center" href="{% url 'dashboard' 'en' %}" title="Cash Management" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-placement="right">
+            <span class="menu-icon me-0">
+                <!--cash management icon-->
+                <span class="menu-link menu-center">
+                    <span class="menu-icon me-0">
+                        <i class="bi bi-cash-stack" style="font-size: 2rem;"></i>
+                    </span>
+                </span>
+                <!--end cash management icon-->
+            </span>
+        </a>
+    </div>
+    <!--end menu title cash management-->
+    {% endif %}
+    <!-------------------end english-------------->
+</div>
+{% endblock %}
+<!------------------------------- end side menu -------------------------------------------->
+
+<!------------------------------- breadcrumb ----------------------------------------------->
+<!-- english & frensh version -->
+{% block breadcrumb %}
+<!--breadcrumb-->
+<ul class="breadcrumb fw-semibold fs-base my-1">
+    <!-------------------english------------------>
+    {% if lang == 'en' %}
+    <li class="breadcrumb-item text-muted">
+        <a href="{% url 'dashboard' '#' %}" class="text-muted">Home</a>
+    </li>
+    <li class="breadcrumb-item text-muted">Inventory</li>
+    {% endif %}
+    <!-------------------end english-------------->
+</ul>
+<!--end breadcrumb-->
+{% endblock %}
+<!------------------------------- end breadcrumb ------------------------------------------->
+
+<!------------------------------- products table ------------------------------------------->
+<!-- english & frensh version -->
+{% block content %}
+<div class="container-xxl">
+    <!-------------------english------------------>
+    {% if lang == 'en' %}
+    <!--principle card-->
+    <div class="card card-bordered">
+        <!--principle card header-->
+        <div class="card-header">
+            {% if inventory_product_count > 0 %}
+            <!--search-->
+            <div class="d-flex align-items-center position-relative my-1">
+                <!--search logo-->
+                <span class="svg-icon svg-icon-1 position-absolute ms-4">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="currentColor" />
+                        <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor" />
+                    </svg>
+                </span>
+                <!--end search logo-->
+                <!--search input-->
+                <input type="text" data-kt-ecommerce-product-filter="search" class="form-control form-control-solid w-250px ps-14" placeholder="Search Product" />
+                <!--end search input-->
+            </div>
+            <!--end search-->
+            {% else %}
+            <!--no products message-->
+            <div class="d-flex align-items-center position-relative my-1">
+                No registered products ,to start click on add products
+            </div>
+            <!--end no products message-->
+            {% endif %}
+            <!--toolbar-->
+            <div class="card-toolbar">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_new_product">
+                    add new product
+                </button>
+            </div>
+            <!--end toolbar-->
+        </div>
+        <!--end principle card header-->
+        <!--principle card body-->
+        <div class="card-body">
+            <!--inventory table-->
+            <div class="table-responsive">
+                {% if inventory_product_count > 0 %}
+                <table class="table table-row-bordered gy-7 gs-7">
+                    <thead>
+                    <tr class="fw-semibold fs-6 text-gray-800 border-bottom-2 border-gray-200">
+                        <th class="min-w-600px">Product</th>
+                        <th class="text-end min-w-20px"></th>
+                        <th class="text-end min-w-20px"></th>
+                        <th class="text-end min-w-20px"></th>
+                        <th class="text-center min-w-60px">Qty</th>
+                        <th class="text-end min-w-20px"></th>
+                        <th class="text-center min-w-200px">Sell Rate</th>
+                        <th class="text-center min-w-200px">Buy Price</th>
+                        <th class="text-center min-w-200px">Sell Price</th>
+                        <th class="text-center min-w-200px">Discount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in products %}
+                    {% if product.type == 'main' %}
+                    <tr>
+                        <!--product-->
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <!--product thumbnail-->
+                                <a class="symbol symbol-50px" data-fslightbox="lightbox-basic" href="{% get_media_prefix %}{{product.thumb}}">
+                                    <span class="symbol-label" style="background-image:url({% get_media_prefix %}{{product.thumb}});"></span>
+                                </a>
+                                <!--end product thumbnail-->
+                                <div class="ms-5">
+                                    <!--begin::Title-->
+                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="{{product.en_product_title}}">{{product.en_product_title}}</a>
+                                    <i class="bi bi-dash-lg"></i>
+                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="{{product.en_variant}}">{{product.en_variant}}</a>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </td>
+                        <!--end product-->
+
+                        <!--edit product action-->
+                        <td class="text-end">
+                            <a href="{% url 'inventory-edit' 'product_view' product.sku 0 %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="edit product">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </td>
+                        <!--end edit product action-->
+
+                        <!--delete product action-->
+                        <td class="text-end">
+                            <a href="{% url 'inventory' 'delete_product' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="delete product">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                        <!--end delete product action-->
+
+                        <!--add qty-->
+                        <td>
+                            <a href="{% url 'inventory' 'remove_quantity' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="remove quantity">
+                                <i class="bi bi-dash"></i>
+                            </a>
+                        </td>
+                        <!--end add qty-->
+
+                        <!--qty-->
+                        <td class="text-center">
+                            <span class="fw-bold">{{product.quantity}}</span>
+                        </td>
+                        <!--end qty-->
+
+                        <!--remove qty-->
+                        <td>
+                            <a href="{% url 'inventory' 'add_quantity' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="add quantity">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        </td>
+                        <!--end remove qty-->
+
+                        <!--sell rate-->
+                        <td class="text-end pe-0">
+                            <div class="rating justify-content-center">
+                                {% for fill in fool %}
+                                {% if fill < product.sell_rate %}
+                                <div class="rating-label checked">
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                {% else %}
+                                <div class="rating-label">
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </td>
+                        <!--end sell rate-->
+
+                        <!--buy price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.buy_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end buy price-->
+
+                        <!--sell price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.sell_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end sell price-->
+
+                        <!--discount price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.discount_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end discount price-->
+                    </tr>
+                    {% endif %}
+                    {% if product.type == 'proto' %}
+                    <tr>
+                        <!--product-->
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <!--product thumbnail-->
+                                <a class="symbol symbol-50px" data-fslightbox="lightbox-basic" href="{% get_media_prefix %}{{product.thumb}}">
+                                    <span class="symbol-label" style="background-image:url({% get_media_prefix %}{{product.thumb}});"></span>
+                                </a>
+                                <!--end product thumbnail-->
+                                <div class="ms-5">
+                                    <!--begin::Title-->
+                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="{{product.en_product_title}}">{{product.en_product_title}}</a>
+                                    <i class="bi bi-dash-lg"></i>
+                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold" data-kt-ecommerce-product-filter="{{product.en_variant}}">{{product.en_variant}}</a>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </td>
+                        <!--end product-->
+
+                        <!--edit product action-->
+                        <td class="text-end">
+                            <a href="{% url 'inventory-edit' 'product_view' product.sku 0 %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="edit product">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </td>
+                        <!--end edit product action-->
+
+                        <!--delete product action-->
+                        <td class="text-end">
+                            <a href="{% url 'inventory' 'delete_product' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="delete product">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                        <!--end delete product action-->
+
+                        <!--add qty-->
+                        <td>
+                        </td>
+                        <!--end add qty-->
+
+                        <!--qty-->
+                        <td class="text-center">
+                            <span class="fw-bold">{{product.quantity}}</span>
+                        </td>
+                        <!--end qty-->
+
+                        <!--remove qty-->
+                        <td>
+                        </td>
+                        <!--end remove qty-->
+
+                        <!--sell rate-->
+                        <td class="text-end pe-0">
+                            <div class="rating justify-content-center">
+                                {% for fill in fool %}
+                                {% if fill < product.sell_rate %}
+                                <div class="rating-label checked">
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                {% else %}
+                                <div class="rating-label">
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </td>
+                        <!--end sell rate-->
+
+                        <!--buy price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.buy_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end buy price-->
+
+                        <!--sell price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.sell_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end sell price-->
+
+                        <!--discount price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.discount_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end discount price-->
+                    </tr>
+                    {% endif %}
+                    {% if product.type == 'size' %}
+                    <tr class="table-active">
+                        <!--product-->
+                        <td>
+                            <div class="d-flex align-items-center" style="padding-left: 145px;">
+                                <!--product thumbnail-->
+                                <a href="#" class="symbol symbol-50px">
+                                    <i class="bi bi-dash-lg" style="margin-right: 36px;"></i>
+                                </a>
+                                <!--end product thumbnail-->
+                                <div class="ms-5">
+                                    <!--begin::Title-->
+                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Size</a>
+                                    <i class="bi bi-dash-lg"></i>
+                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold">{{product.size}}</a>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </td>
+                        <!--end product-->
+
+                        <!--edit product action-->
+                        <td class="text-end">
+                        </td>
+                        <!--end edit product action-->
+
+                        <!--delete product action-->
+                        <td class="text-end">
+                            <a href="{% url 'inventory' 'delete_product' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="delete size">
+                                <i class="bi bi-trash" data-bs-toggle="modal"></i>
+                            </a>
+                        </td>
+                        <!--end delete product action-->
+
+                        <!--add qty-->
+                        <td>
+                            <a href="{% url 'inventory' 'remove_quantity' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="remove quantity">
+                                <i class="bi bi-dash"></i>
+                            </a>
+                        </td>
+                        <!--end add qty-->
+
+                        <!--qty-->
+                        <td class="text-center">
+                            <span class="fw-bold">{{product.quantity}}</span>
+                        </td>
+                        <!--end qty-->
+
+                        <!--remove qty-->
+                        <td>
+                            <a href="{% url 'inventory' 'add_quantity' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="add quantity">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        </td>
+                        <!--end remove qty-->
+
+                        <!--sell rate-->
+                        <td class="text-center">
+                            <i class="bi bi-dash-lg"></i>
+                        </td>
+                        <!--end sell rate-->
+
+                        <!--buy price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.buy_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end buy price-->
+
+                        <!--sell price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.sell_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end sell price-->
+
+                        <!--discount price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.discount_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end discount price-->
+                    </tr>
+                    {% endif %}
+                    {% if product.type == 'photo' %}
+                    <tr class="table-active">
+                        <!--product-->
+                        <td>
+                            <div class="d-flex align-items-center" style="padding-left: 140px;">
+                                <!--product thumbnail-->
+                                <a class="symbol symbol-50px"  data-fslightbox="lightbox-basic" href="{% get_media_prefix %}{{product.thumb}}">
+                                    <span class="symbol-label" style="background-image:url({% get_media_prefix %}{{product.thumb}});"></span>
+                                </a>
+                                <!--end product thumbnail-->
+                                <div class="ms-5">
+                                    <!--begin::Title-->
+                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold">Photo</a>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </td>
+                        <!--end product-->
+
+                        <!--edit product action-->
+                        <td class="text-end">
+                        </td>
+                        <!--end edit product action-->
+
+                        <!--delete product action-->
+                        <td class="text-end">
+                            <a href="{% url 'inventory' 'delete_product' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="delete size">
+                                <i class="bi bi-trash" data-bs-toggle="modal"></i>
+                            </a>
+                        </td>
+                        <!--end delete product action-->
+
+                        <!--add qty-->
+                        <td>
+                        </td>
+                        <!--end add qty-->
+
+                        <!--qty-->
+                        <td class="text-center">
+                            <i class="bi bi-dash-lg"></i>
+                        </td>
+                        <!--end qty-->
+
+                        <!--remove qty-->
+                        <td>
+                        </td>
+                        <!--end remove qty-->
+
+                        <!--sell rate-->
+                        <td class="text-center">
+                            <i class="bi bi-dash-lg"></i>
+                        </td>
+                        <!--end sell rate-->
+
+                        <!--buy price-->
+                        <td class="text-center">
+                            <i class="bi bi-dash-lg"></i>
+                        </td>
+                        <!--end buy price-->
+
+                        <!--sell price-->
+                        <td class="text-center">
+                            <i class="bi bi-dash-lg"></i>
+                        </td>
+                        <!--end sell price-->
+
+                        <!--discount price-->
+                        <td class="text-center">
+                            <i class="bi bi-dash-lg"></i>
+                        </td>
+                        <!--end discount price-->
+                    </tr>
+                    {% endif %}
+                    {% if product.type == 'set' %}
+                    <tr>
+                        <!--product-->
+                        <td>
+                            <div class="d-flex align-items-center" style="padding-left: 70px;">
+                                <!--product thumbnail-->
+
+                                <a class="symbol symbol-50px" data-fslightbox="lightbox-basic" href="{% get_media_prefix %}{{product.thumb}}">
+                                    <span class="symbol-label" style="background-image:url({% get_media_prefix %}{{product.thumb}});"></span>
+                                </a>
+                                <!--end product thumbnail-->
+                                <div class="ms-5" style="padding-left: 70px;">
+                                    <!--begin::Title-->
+                                    <a class="text-gray-800 text-hover-primary fs-5 fw-bold">{{product.en_variant}}</a>
+                                    <!--end::Title-->
+                                </div>
+                            </div>
+                        </td>
+                        <!--end product-->
+
+                        <!--edit product action-->
+                        <td class="text-end">
+                            <a href="{% url 'inventory-edit' 'product_view' product.sku 0 %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="edit product">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        </td>
+                        <!--end edit product action-->
+
+                        <!--delete product action-->
+                        <td class="text-end">
+                            <a href="{% url 'inventory' 'delete_product' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="delete product">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                        <!--end delete product action-->
+
+                        <!--add qty-->
+                        <td>
+                            <a href="{% url 'inventory' 'remove_quantity' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="remove quantity">
+                                <i class="bi bi-dash"></i>
+                            </a>
+                        </td>
+                        <!--end add qty-->
+
+                        <!--qty-->
+                        <td class="text-center">
+                            <span class="fw-bold">{{product.quantity}}</span>
+                        </td>
+                        <!--end qty-->
+
+                        <!--remove qty-->
+                        <td>
+                            <a href="{% url 'inventory' 'add_quantity' product.sku %}" class="btn btn-sm btn-light btn-active-light-primary" data-bs-trigger="hover" data-bs-dismiss="click" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="add quantity">
+                                <i class="bi bi-plus"></i>
+                            </a>
+                        </td>
+                        <!--end remove qty-->
+
+                        <!--sell rate-->
+                        <td class="text-end pe-0">
+                            <div class="rating justify-content-center">
+                                {% for fill in fool %}
+                                {% if fill < product.sell_rate %}
+                                <div class="rating-label checked">
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                {% else %}
+                                <div class="rating-label">
+                                    <span class="svg-icon svg-icon-2">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
+                                        </svg>
+                                    </span>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </td>
+                        <!--end sell rate-->
+
+                        <!--buy price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.buy_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end buy price-->
+
+                        <!--sell price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.sell_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end sell price-->
+
+                        <!--discount price-->
+                        <td class="text-center">
+                            <span class="fw-bold text-dark">{{ product.discount_price|floatformat:"2g" }} DZD</span>
+                        </td>
+                        <!--end discount price-->
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
+            </div>
+            <!--end inventory table-->
+        </div>
+        <!--end principle card body-->
+        <!--principle card footer-->
+        <div class="card-footer">
+
+        </div>
+        <!--end principle card footer-->
+    </div>
+    <!--end principle card-->
+
+
+    <!--add new product modal-->
+    <div class="modal bg-white fade" tabindex="-1" id="add_new_product">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content shadow-none">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add new product</h5>
+
+                    <!--close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <span class="svg-icon svg-icon-2x"></span>
+                    </div>
+                    <!--end clos-->
+                </div>
+
+                <div class="modal-body">
+                    <!--add product general information form-->
+                    <form action="{% url 'inventory' 'add_new_product' '#' %}" class="form d-flex flex-column flex-lg-row fv-plugins-bootstrap5 fv-plugins-framework" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+                            <div class="tab-content">
+                                <!--add product form inputs-->
+                                <div class="tab-pane fade active show">
+                                    <div class="d-flex flex-column gap-7 gap-lg-10">
+                                        <!--add product information-->
+                                        <div class="card card-flush py-4">
+                                            <!--block title-->
+                                            <div class="card-header">
+                                                <div class="card-title">
+                                                    <div class="card card-flush py-4">
+                                                        <!--thumbnail input-->
+                                                        <div class="card-header">
+                                                            <!--begin::Card title-->
+                                                            <div class="card-title">
+                                                                <h2>Product Thumbnail</h2>
+                                                            </div>
+                                                            <!--end::Card title-->
+                                                        </div>
+                                                        <!--end::Card header-->
+                                                        <!--begin::Card body-->
+                                                        <div class="card-body text-center pt-0">
+                                                            <!--begin::Image input-->
+                                                            <div class="image-input image-input-empty" data-kt-image-input="true" style="background-image: url({% static 'manager/media/svg/avatars/blank-dark.svg' %})">
+                                                                <!--begin::Image preview wrapper-->
+                                                                <div class="image-input-wrapper w-125px h-125px"></div>
+                                                                <!--end::Image preview wrapper-->
+                                                                <!--begin::Edit button-->
+                                                                <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Change avatar">
+                                                                    <i class="bi bi-pencil-fill fs-7"></i>
+                                                                    <!--begin::Inputs-->
+                                                                    <input type="file" name="thumb" accept=".png, .jpg, .jpeg" />
+                                                                    <input type="hidden" name="thumb_remove" />
+                                                                    <!--end::Inputs-->
+                                                                </label>
+                                                                <!--end::Edit button-->
+                                                                <!--begin::Cancel button-->
+                                                                <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Cancel avatar">
+                                                                    <i class="bi bi-x fs-2"></i>
+                                                                </span>
+                                                                <!--end::Cancel button-->
+                                                                <!--begin::Remove button-->
+                                                                <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" data-bs-dismiss="click" title="Remove avatar">
+                                                                    <i class="bi bi-x fs-2"></i>
+                                                                </span>
+                                                                <!--end::Remove button-->
+                                                            </div>
+                                                            <!--end::Image input-->
+                                                            <!--begin::Description-->
+                                                            <div class="text-muted fs-7">Set the product thumbnail image. Only *.png, *.jpg and *.jpeg image files are accepted</div>
+                                                            <!--end::Description-->
+                                                        </div>
+                                                        <!--end thumbnail input-->
+                                                    </div>
+                                                </div>
+                                                <div class="card-title">
+                                                    <h2>Product Information</h2>
+                                                </div>
+                                            </div>
+                                            <!--end block title-->
+
+                                            <!--block body-->
+                                            <div class="card-body pt-0">
+                                                <!--product name-->
+                                                <div class="mt-20 mb-20 fv-row fv-plugins-icon-container">
+                                                    <div class="d-flex flex-wrap gap-5">
+                                                        <!--product name input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="required form-label">Product Title</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="text" name="en_product_title" class="form-control mb-2" required>
+                                                            <!--end input-->
+                                                            <!--description-->
+                                                            <div class="text-muted fs-7">A product title is required and recommended to be unique.</div>
+                                                            <!--end description-->
+                                                        </div>
+                                                        <!--end product name input-->
+
+                                                        <!--product detail input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Detail</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="text" name="en_variant" class="form-control mb-2">
+                                                            <!--end input-->
+                                                        </div>
+                                                        <!--end product detail input-->
+                                                    </div>
+                                                </div>
+                                                <!--end product name-->
+
+                                                <!--french product name-->
+                                                <div class="mt-20 mb-20 fv-row fv-plugins-icon-container">
+                                                    <div class="d-flex flex-wrap gap-5">
+                                                        <!--french product name input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Title Translated To French</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="text" name="fr_product_title" class="form-control mb-2">
+                                                            <!--end input-->
+                                                            <!--description-->
+                                                            <div class="text-muted fs-7">Translate the product name to french.</div>
+                                                            <!--end description-->
+                                                        </div>
+                                                        <!--end french product name input-->
+
+                                                        <!--french product detail input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Detail Translated To French</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="text" name="fr_variant" class="form-control mb-2">
+                                                            <!--end input-->
+                                                        </div>
+                                                        <!--end french product detail input-->
+                                                    </div>
+                                                </div>
+                                                <!--end french product name-->
+
+                                                <!--arabic product name-->
+                                                <div class="mt-20 mb-20 fv-row fv-plugins-icon-container">
+                                                    <div class="d-flex flex-wrap gap-5">
+                                                        <!--french product name input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Title Translated To Arabic</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="text" name="ar_product_title" class="form-control mb-2" dir="rtl">
+                                                            <!--end input-->
+                                                            <!--description-->
+                                                            <div class="text-muted fs-7">Translate the product name to arabic.</div>
+                                                            <!--end description-->
+                                                        </div>
+                                                        <!--end french product name input-->
+
+                                                        <!--arabic product detail input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Detail Translated To Arabic</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="text" name="ar_variant" class="form-control mb-2" dir="rtl">
+                                                            <!--end input-->
+                                                        </div>
+                                                        <!--end arabic product detail input-->
+                                                    </div>
+                                                </div>
+                                                <!--end arabic product name-->
+
+                                                <!--brand & model-->
+                                                <div class="mt-20 mb-20 fv-row fv-plugins-icon-container">
+                                                    <div class="d-flex flex-wrap gap-5">
+                                                        <!--brand input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Brand</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="text" name="brand" class="form-control mb-2" placeholder="product brand">
+                                                            <!--end input-->
+                                                        </div>
+                                                        <!--end brand input-->
+
+                                                        <!--model input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Model</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="text" name="model" class="form-control mb-2" placeholder="product model">
+                                                            <!--end input-->
+                                                        </div>
+                                                        <!--end model input-->
+                                                    </div>
+                                                </div>
+                                                <!--end brand & model-->
+
+                                                <!--upc input-->
+                                                <div class="mb-10 fv-row fv-plugins-icon-container">
+                                                    <!--label-->
+                                                    <label class="form-label">Barcode</label>
+                                                    <!--end label-->
+                                                    <!--input-->
+                                                    <input type="text" name="upc" class="form-control mb-2">
+                                                    <!--end input-->
+                                                    <!--description-->
+                                                    <div class="text-muted fs-7">Product can be stored without Barcode but highly recommended.</div>
+                                                    <!--end description-->
+                                                </div>
+                                                <!--end upc input-->
+
+                                                <!--tag input-->
+                                                <div class="mb-10 fv-row fv-plugins-icon-container">
+                                                    <!--label-->
+                                                    <label class="form-label">Tag</label>
+                                                    <!--end label-->
+                                                    <!--input-->
+                                                    <input type="text" name="tag" class="form-control mb-2" placeholder="Separate the tags by a space">
+                                                    <!--end input-->
+                                                    <!--description-->
+                                                    <div class="text-muted fs-7">Tags are needed to increase search accuracy</div>
+                                                    <!--end description-->
+                                                </div>
+                                                <!--end tag input-->
+
+                                                <!--product quantity & buy price input-->
+                                                <div class="mt-20 mb-20 fv-row fv-plugins-icon-container">
+                                                    <div class="d-flex flex-wrap gap-5">
+                                                        <!--quantity input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Quantity</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <input type="number" name="quantity" class="form-control" placeholder="put product quantity" value=0>
+                                                            <!--end input-->
+                                                            <!--description-->
+                                                            <div class="text-muted fs-7">Put product quantity.</div>
+                                                            <!--end description-->
+                                                        </div>
+                                                        <!--end quantity input-->
+
+                                                        <!--price input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Buy Price</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <div class="input-group">
+                                                                <input type="number" name="buy_price" class="form-control" placeholder="put product coast">
+                                                                <span class="input-group-text">DZD</span>
+                                                            </div>
+                                                            <!--end input-->
+                                                            <!--description-->
+                                                            <div class="text-muted fs-7">The buy price is required for best management computing.</div>
+                                                            <!--end description-->
+                                                        </div>
+                                                        <!--end price input-->
+                                                    </div>
+                                                </div>
+                                                <!--end product quantity & buy price input-->
+
+                                                <!--product sell price & discount price input-->
+                                                <div class="mt-20 mb-20 fv-row fv-plugins-icon-container">
+                                                    <div class="d-flex flex-wrap gap-5">
+                                                        <!--sell price input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Sell Price</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <div class="input-group">
+                                                                <input type="number" name="sell_price" class="form-control" placeholder="sell price in algerian currency">
+                                                                <span class="input-group-text">DZD</span>
+                                                            </div>
+                                                            <!--end input-->
+                                                            <!--description-->
+                                                            <div class="text-muted fs-7">Sell price is required to upload the product</div>
+                                                            <!--end description-->
+                                                        </div>
+                                                        <!--end sell price input-->
+
+                                                        <!--discount price input-->
+                                                        <div class="fv-row w-100 flex-md-root">
+                                                            <!--label-->
+                                                            <label class="form-label">Product Discount Price</label>
+                                                            <!--end label-->
+                                                            <!--input-->
+                                                            <div class="input-group">
+                                                                <input type="number" name="discount_price" class="form-control" placeholder="discount price">
+                                                                <span class="input-group-text">DZD</span>
+                                                            </div>
+                                                            <!--end input-->
+                                                        </div>
+                                                        <!--end discount price input-->
+                                                    </div>
+                                                </div>
+                                                <!--end product sell price & discount price input-->
+                                            </div>
+                                            <!--end block body-->
+                                        </div>
+                                        <!--end add product information-->
+                                    </div>
+                                </div>
+                                <!--end add product form inputs-->
+                                <!--add product buttons-->
+                                <div class="d-flex justify-content-end" style="padding-top: 50px;">
+                                    <!--submit button-->
+                                    <button type="submit" class="btn btn-primary">
+                                        <span class="indicator-label">Save Changes</span>
+                                    </button>
+                                    <!--end submit button-->
+                                </div>
+                                <!--end add product buttons-->
+                            </div>
+                        </div>
+                    </form>
+                    <!--end add product general information form-->
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end add new product modal-->
+
+
+    {% endif %}
+    <!-------------------end english-------------->
+</div>
+{% endblock %}
+<!------------------------------- end products table --------------------------------------->

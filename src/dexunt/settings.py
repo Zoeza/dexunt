@@ -20,12 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8w)708#%e+6-xla@tay-v6*#s$yws1q!_td+x_!drm4lvdu)od'
-
+SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['94.176.238.2', '192.168.64.6']
+ALLOWED_HOSTS = ['94.176.238.2', '192.168.64.6', '192.168.64.7']
 
 # Application definition
 
@@ -81,11 +80,9 @@ WSGI_APPLICATION = 'dexunt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dexunt_db',
-        'USER': 'dexunt_us',
-        'PASSWORD': 'Bouderbala6931',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '/etc/mysql/my.cnf',
+        },
     }
 }
 

@@ -79,10 +79,14 @@ WSGI_APPLICATION = 'dexunt.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'dexunt_db',
+        'USER': 'dexunt_us',
+        'PASSWORD': 'Bouderbala6931',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
-    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

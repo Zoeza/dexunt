@@ -80,11 +80,9 @@ WSGI_APPLICATION = 'dexunt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dexunt_db',
-        'USER': 'dexunt_us',
-        'PASSWORD': 'Bouderbala6931',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'OPTIONS': {
+            'read_default_file': '/etc/mysql/my.cnf',
+        },
     }
 }
 

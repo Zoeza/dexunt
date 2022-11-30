@@ -4,7 +4,7 @@ from .models import Layout
 def main_shop_content(request):
     try:
         layouts = Layout.objects.all()
-    except InventoryProduct.DoesNotExist:
+    except Product.DoesNotExist:
         raise Http404("No products")
     if layouts.filter(type='timer_banner').exists():
         timer_banner = layouts.get(type='timer_banner')

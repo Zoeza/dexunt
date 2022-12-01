@@ -1,7 +1,4 @@
-from django.http import Http404
-
 from .models import Layout
-from ..shop_manager.models import Product
 
 
 def main_shop_content(request):

@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from . import inventory_actions, e_shop_actions
 from .models import Product
-from main_shop.models import Layout
 
 
 def manager_dashboard(request, action):

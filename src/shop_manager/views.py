@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 from . import inventory_actions, e_shop_actions
 from .models import Product

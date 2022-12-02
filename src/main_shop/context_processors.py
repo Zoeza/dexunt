@@ -1,11 +1,10 @@
 from .models import Layout
-from ..shop_manager.models import Product
 
 
 def main_shop_content(request):
     try:
         layouts = Layout.objects.all()
-    except Product.DoesNotExist:
+    except InventoryProduct.DoesNotExist:
         raise Http404("No products")
     if layouts.filter(type='timer_banner').exists():
         timer_banner = layouts.get(type='timer_banner')
@@ -37,11 +36,6 @@ def main_shop_content(request):
         third_thumb_banner = layouts.get(type='third_thumb_banner')
     else:
         third_thumb_banner = Layout()
-
-    if layouts.filter(type='showcase').exists():
-        showcases = layouts.filter(type='showcase').order_by('rank')
-    else:
-        showcases = Layout()
     return {
         'timer_banner': timer_banner,
 
@@ -52,6 +46,4 @@ def main_shop_content(request):
         'first_thumb_banner': first_thumb_banner,
         'second_thumb_banner': second_thumb_banner,
         'third_thumb_banner': third_thumb_banner,
-
-        'showcases': showcases,
     }

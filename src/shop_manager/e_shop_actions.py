@@ -1,7 +1,5 @@
 import random
 import string
-
-from django.http import Http404
 from main_shop.models import Layout
 from .models import Product, Feature
 
@@ -256,6 +254,41 @@ def timer_banner(request, action):
 
         layout.thumb = thumb
 
+        layout.save()
+
+    return {
+        'url': url,
+    }
+
+
+def add_showcase(request):
+    url = "shop-manager/e-shop.html"
+    rank = Layout.objects.all().filter(type='showcase').count() + 1
+
+    if request.method == 'POST':
+        en_second_title = request.POST.get('selected_type', False)
+
+        en_first_title = request.POST.get('en_title', False)
+        en_button = request.POST.get('en_button', False)
+
+        fr_first_title = request.POST.get('fr_title', False)
+        fr_button = request.POST.get('fr_button', False)
+
+        ar_first_title = request.POST.get('ar_title', False)
+        ar_button = request.POST.get('ar_button', False)
+
+        link = request.POST.get('link', False)
+        layout = Layout(en_second_title=en_second_title,
+                        en_first_title=en_first_title,
+                        en_button=en_button,
+                        fr_first_title=fr_first_title,
+                        fr_button=fr_button,
+                        ar_first_title=ar_first_title,
+                        ar_button=ar_button,
+                        link=link,
+                        type='showcase',
+                        rank=rank,
+                        )
         layout.save()
 
     return {

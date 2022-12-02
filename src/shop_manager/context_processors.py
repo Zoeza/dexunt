@@ -1,12 +1,10 @@
-from django.http import Http404
-
 from .models import Product
 
 
 def shop_manager_content(request):
     try:
         raw_products_list = Product.objects.all()
-    except Product.DoesNotExist:
+    except InventoryProduct.DoesNotExist:
         raise Http404("No products")
     products = raw_products_list.order_by('en_product_title', 'en_variant')
     inventory_product_count = raw_products_list.count()

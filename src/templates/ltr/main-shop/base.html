@@ -685,6 +685,7 @@
           </div>
         </div>
       </section>
+      {% if showcases_exists %}
       {% for showcase in showcases %}
       {% if showcase.en_second_title == 'grid_showcase' %}
       <section class="container pt-5">
@@ -728,6 +729,8 @@
       </section>
       {% endif %}
       {% endfor %}
+      {% endif %}
+
       <!-- Promo banner-->
       <section class="container mt-4 mb-grid-gutter">
         <div class="bg-faded-info rounded-3 py-4">

@@ -6,10 +6,6 @@ def main_shop_content(request):
         layouts = Layout.objects.all()
     except InventoryProduct.DoesNotExist:
         raise Http404("No products")
-    if layouts.filter(type='timer_banner').exists():
-        timer_banner = layouts.get(type='timer_banner')
-    else:
-        timer_banner = Layout()
 
     if layouts.filter(type='first_main_banner').exists():
         first_main_banner = layouts.get(type='first_main_banner')
@@ -39,11 +35,11 @@ def main_shop_content(request):
 
     if layouts.filter(type='showcase').exists():
         showcases = layouts.filter(type='showcase').order_by('rank')
+        showcases_exists = True
     else:
         showcases = Layout()
+        showcases_exists = False
     return {
-        'timer_banner': timer_banner,
-
         'first_main_banner': first_main_banner,
         'second_main_banner': second_main_banner,
         'third_main_banner': third_main_banner,
@@ -52,5 +48,6 @@ def main_shop_content(request):
         'second_thumb_banner': second_thumb_banner,
         'third_thumb_banner': third_thumb_banner,
 
+        'showcases_exists': showcases_exists,
         'showcases': showcases,
     }

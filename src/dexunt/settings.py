@@ -19,11 +19,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+#SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = 'django-insecure-8w)708#%e+6-xla@tay-v6*#s$yws1q!_td+x_!drm4lvdu)od'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['94.176.238.2', '192.168.64.6', '192.168.64.7']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -78,10 +80,8 @@ WSGI_APPLICATION = 'dexunt.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'read_default_file': '/etc/mysql/my.cnf',
-        },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
     }
 }
 
@@ -119,11 +119,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = 'dexunt-root/site/public/static'
+#STATIC_URL = '/static/'
+# = 'dexunt-root/site/public/static'
+STATIC_ROOT = ""
+STATIC_URL = 'static/'
+STATICFILES_DIRS = '/Users/macbook/software-projects/django-projects/dexunt/site/public/static',
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = 'dexunt-root/site/public/media'
+MEDIA_ROOT = 'dexunt/site/public/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
